@@ -15,6 +15,86 @@ import {
   serverTimestamp 
 } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { db, storage, ADMIN_WHATSAPP, STORE_NAME } from './firebase-config.js';
+import {
+  collection, getDocs, addDoc, doc, updateDoc, increment, serverTimestamp
+} from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js';
+import { ref, getDownloadURL } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-storage.js';
+
+class Sapna {
+  constructor() {
+    this.cart = [];
+    this.toast = document.getElementById('toast');
+    this.loadProducts();
+  }
+
+  async loadProducts() {
+    const qSnap = await getDocs(collection(db, 'products'));
+    const products = [];
+    qSnap.forEach(docu => products.push({ id: docu.id, ...docu.data() }));
+    this.renderProducts(products);
+  }
+
+  renderProducts(products) {
+    const container = document.getElementById('products');
+    container.innerHTML = products.map(p => `
+      <div class="card">
+        <img src="${p.imageUrl}" alt="${p.name}">
+        <div class="card-body">
+          <h3>${p.name}</h3>
+          <p class="price">₹${p.price}</p>
+          <button class="btn" ${p.stock===0?'disabled':''} onclick="sapna.addToCart('${p.id}', ${p.price}, '${p.name}')">
+            ${p.stock===0?'Out of Stock':'Add to Cart'}
+          </button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  addToCart(pid, price, name) {
+    const existing = this.cart.find(i => i.pid===pid);
+    existing ? existing.qty++ : this.cart.push({pid, price, name, qty:1});
+    this.updateCartUI();
+    this.show(`Added ${name} to cart`);
+  }
+
+  updateCartUI() {
+    const cartCount = document.getElementById('cartCount');
+    const cartItems = document.getElementById('cartItems');
+    const cartTotal = document.getElementById('cartTotal');
+    cartCount.textContent = this.cart.reduce((s,i)=>s+i.qty,0);
+    cartItems.innerHTML = this.cart.map(i=>`<p>${i.name} x ${i.qty} — ₹${i.price*i.qty}</p>`).join('');
+    cartTotal.textContent = this.cart.reduce((s,i)=>s+i.price*i.qty,0);
+  }
+
+  toggleCart(){ document.getElementById('cart').classList.toggle('open'); }
+
+  async checkout(){
+    if(!this.cart.length){this.show('Cart empty');return;}
+    const name = prompt('Your name?');
+    const phone = prompt('Phone?');
+    const addr = prompt('Address with pincode?');
+    if(!name||!phone||!addr){this.show('Incomplete');return;}
+    const orderRef = await addDoc(collection(db,'orders'),{
+      customer:{name,phone,addr},
+      items:this.cart,
+      total:this.cart.reduce((s,i)=>s+i.price*i.qty,0),
+      createdAt:serverTimestamp(),
+      whatsapp:false
+    });
+    // decrement stock
+    for(const item of this.cart){
+      await updateDoc(doc(db,'products',item.pid),{stock:increment(-item.qty)});
+    }
+    this.cart=[];this.updateCartUI();this.toggleCart();
+    this.show('Order placed!');
+  }
+
+  show(msg){this.toast.textContent=msg;this.toast.classList.add('show');setTimeout(()=>this.toast.classList.remove('show'),2500);}
+}
+
+window.sapna = new Sapna();
+Asset 3 of 4
 
 // Admin/Seller Contact Details
 const ADMIN_WHATSAPP = "919990122794";
