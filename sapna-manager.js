@@ -97,7 +97,7 @@ window.sapna = new Sapna();
 Asset 3 of 4
 
 // Admin/Seller Contact Details
-const ADMIN_WHATSAPP = "919990122794";
+const ADMIN_WHATSAPP = "918766028985";
 const STORE_NAME = "SapnaSarees";
 
 class SapnaSareesManager {
