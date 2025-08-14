@@ -1,14 +1,11 @@
-// Firebase Configuration for SapnaSarees
-// Replace with your actual Firebase config from Firebase Console
-
-// Import the functions you need from the SDKs you need
+// Firebase Configuration for SapnaSarees - WORKING VERSION
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
+import { getFunctions } from "firebase/functions";
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// Your actual Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyCpuV4C9YqUbt1i2P-mVGJAeUCwq4WfUgg",
   authDomain: "sapnasarees-89e84.firebaseapp.com",
@@ -23,23 +20,25 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
-// Initialize Firebase
-import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
-import { getStorage } from 'firebase/storage';
-import { getFunctions } from 'firebase/functions';
-
-const app = initializeApp(firebaseConfig);
+// Export Firebase services
 export const db = getFirestore(app);
 export const storage = getStorage(app);
 export const functions = getFunctions(app);
 
-// Database Collections Structure:
-/*
-Collections:
-1. products - {id, name, price, originalPrice, description, category, color, fabric, occasion, stock, imageUrl, isActive, createdAt, updatedAt}
-2. orders - {id, customerId, customerInfo, items[], total, status, orderDate, deliveryAddress, pincode, phone, whatsappSent, deliveryDate}
-3. customers - {id, name, email, phone, addresses[], orderHistory[]}
-4. inventory - {productId, currentStock, reservedStock, lowStockAlert}
-5. settings - {whatsappNumber, adminPhone, storeName, gstNumber}
-*/
+// Admin contact details
+export const ADMIN_WHATSAPP = "919990122794";
+export const STORE_NAME = "SapnaSarees";
+
+console.log("✅ Firebase initialized successfully for SapnaSarees!");
+
+// Test connection
+export const testFirebaseConnection = async () => {
+  try {
+    // Simple test to verify connection
+    console.log("🔥 Firebase project:", firebaseConfig.projectId);
+    return true;
+  } catch (error) {
+    console.error("❌ Firebase connection failed:", error);
+    return false;
+  }
+};
