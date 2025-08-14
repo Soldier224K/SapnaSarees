@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "547407946302",
+    "project_id": "sapnasarees-89e84",
+    "storage_bucket": "sapnasarees-89e84.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:547407946302:android:8b7b2e3ae4cea1b186276f",
+        "android_client_info": {
+          "package_name": "in.SapnaSarees.SapnaSaree"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9P90yX-td_X2XGTEFY1eL-_auPBSyx1A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
