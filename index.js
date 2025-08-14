@@ -15,7 +15,7 @@ exports.sendWhatsAppWhenNewOrder = functions.firestore
 
     // Call your WhatsApp provider
     await axios.post('https://api.twilio.com/…', {
-      to: 'whatsapp:+919990122794',
+      to: 'whatsapp:+918766028985',
       body: text
     });
 
