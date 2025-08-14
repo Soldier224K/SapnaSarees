@@ -6,7 +6,7 @@ const fetch = (...args) => import('node-fetch').then(({default: fn}) => fn(...ar
 admin.initializeApp();
 
 // Change to your WhatsApp number registered on CallMeBot
-const WHATSAPP_NUM = '+919990122794';
+const WHATSAPP_NUM = '+918766028985';
 const CALLMEBOT_APIKEY = 'free'; // after registering send "I allow callmebot to send me messages" to +34 644 64 52 84
 
 exports.sendWhatsAppOnOrder = functions.firestore
